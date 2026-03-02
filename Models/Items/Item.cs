@@ -2,11 +2,11 @@ using XBochi.Models.Pets;
 
 namespace XBochi.Models.Items;
 
-public abstract class AItem
+public abstract class Item
 {
     public string Name { get; protected set; }
 
-    protected AItem(string name)
+    protected Item(string name)
     {
         Name = name;
     }
