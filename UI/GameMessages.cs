@@ -63,18 +63,9 @@ namespace XBochi.UI
 
         private static void DrawStats(Pet pet)
         {
-            
-            /* TODO: REPLACE WITH ACTUAL PET STATS ONCE IMPLEMENTED
-             * For now, we will use hardcoded values to demonstrate the UI.
-             * In a real implementation, these would come from the pet's properties.
-             */
-            int currentHunger = 20;
-            int currentEnergy = 80;
-            int currentHealth = 60;
-
-            Console.WriteLine($"{HungerColor}Hunger:{DrawBar(currentHunger)}{Colors.Reset}");
-            Console.WriteLine($"{EnergyColor}Energy:{DrawBar(currentEnergy)}{Colors.Reset}");
-            Console.WriteLine($"{HealthColor}Health:{DrawBar(currentHealth)}{Colors.Reset}");
+            Console.WriteLine($"{HungerColor}Hunger:{DrawBar(pet.PetStats.Hunger)}{Colors.Reset}");
+            Console.WriteLine($"{EnergyColor}Energy:{DrawBar(pet.PetStats.Energy)}{Colors.Reset}");
+            Console.WriteLine($"{HealthColor}Health:{DrawBar(pet.PetStats.Health)}{Colors.Reset}");
         }
 
         private static void DrawMenu()
