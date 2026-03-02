@@ -1,12 +1,11 @@
-﻿using System;
-
-namespace XBochi
+﻿namespace XBochi
 {
-    class Program
+    static class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Game game = new Game();
+            game.Start();
         }
     }
 }
