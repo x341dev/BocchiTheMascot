@@ -32,7 +32,7 @@ namespace XBochi.UI
 
             DrawHeader(pet);
 
-            DrawPetArt(pet.GetEmotion());
+            DrawPetArt(pet.Emotion);
 
             DrawPetInfo(pet);
 
@@ -54,11 +54,11 @@ namespace XBochi.UI
 
         private static void DrawPetInfo(Pet pet)
         {
-            string emotionEmoji = GetEmotionEmoji(pet.GetEmotion());
-            string emotionColor = GetEmotionColor(pet.GetEmotion());
+            string emotionEmoji = GetEmotionEmoji(pet.Emotion);
+            string emotionColor = GetEmotionColor(pet.Emotion);
 
-            Console.WriteLine($"Name: {pet.GetName()}");
-            Console.WriteLine($"Emotional State: {emotionColor}{pet.GetEmotion()} {emotionEmoji}{Colors.Reset} \n");
+            Console.WriteLine($"Name: {pet.Name}");
+            Console.WriteLine($"Emotional State: {emotionColor}{pet.Emotion} {emotionEmoji}{Colors.Reset} \n");
         }
 
         private static void DrawStats(Pet pet)
