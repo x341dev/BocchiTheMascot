@@ -44,12 +44,31 @@ namespace XBochi.UI
         private static void DrawHeader(Pet pet)
         {
             string typeName = pet.GetType().Name;
+            string title = "XBOCHI";
+            string typeLabel = $"Type: {typeName}";
+            
+            int maxContentWidth = Math.Max(title.Length, typeLabel.Length);
+            
+            int padding = 4;
+            int contentWidth = maxContentWidth + (padding * 2);
 
-            Console.WriteLine($"{BoxColor}╔════════════════════════════════════════════╗{Colors.Reset}");
-            Console.WriteLine($"{BoxColor}║{TitleColor}                 XBOCHI                     {BoxColor}║{Colors.Reset}");
-            Console.WriteLine($"{BoxColor}║{Colors.Reset}                                {BoxColor}║{Colors.Reset}");
-            Console.WriteLine($"{BoxColor}║{Colors.Reset}\t   Type: {typeName,-22}{BoxColor}║{Colors.Reset}");
-            Console.WriteLine($"{BoxColor}╚════════════════════════════════════════════╝{Colors.Reset}");
+            int minSquareWidth = 20; 
+            int boxWidth = Math.Max(contentWidth, minSquareWidth);
+            
+            string topBorder = "╔" + new string('═', boxWidth) + "╗";
+            string bottomBorder = "╚" + new string('═', boxWidth) + "╝";
+            
+            int titlePadding = (boxWidth - title.Length) / 2;
+            
+            string emptyLine = "║" + new string(' ', boxWidth) + "║";
+            
+            int typePadding = (boxWidth - typeLabel.Length) / 2;
+            
+            Console.WriteLine($"{BoxColor}{topBorder}{Colors.Reset}");
+            Console.WriteLine($"{BoxColor}║{TitleColor}{new string(' ', titlePadding)}{title}{new string(' ', boxWidth - titlePadding - title.Length)}{BoxColor}║{Colors.Reset}");
+            Console.WriteLine($"{BoxColor}{emptyLine}{Colors.Reset}");
+            Console.WriteLine($"{BoxColor}║{Colors.Reset}{new string(' ', typePadding)}{typeLabel}{new string(' ', boxWidth - typePadding - typeLabel.Length)}{BoxColor}║{Colors.Reset}");
+            Console.WriteLine($"{BoxColor}{bottomBorder}{Colors.Reset}");
         }
 
         private static void DrawPetInfo(Pet pet)
