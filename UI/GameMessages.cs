@@ -1,71 +1,184 @@
+using System;
 using itbXLib.TerminalUtils;
 using XBochi.Models.Enums;
 using XBochi.Models.Pets;
 
-namespace XBochi.UI;
-
-public static class GameMessages
+namespace XBochi.UI
 {
-    // -- COLOR PALETTE --
-    private static readonly string TitleColor = Colors.RgbToAnsi("#FF69B4");   // Hot Pink
-    private static readonly string MenuColor = Colors.RgbToAnsi("#00FFFF");    // Cyan
-    private static readonly string SuccessColor = Colors.RgbToAnsi("#00FF00"); // Lime Green
-    private static readonly string ErrorColor = Colors.RgbToAnsi("#FF0000");   // Red
-    
-    // -- EMOTION COLORS --
-    private static readonly string HappyColor = Colors.RgbToAnsi("#FFD700");   // Gold
-    private static readonly string SadColor = Colors.RgbToAnsi("#1E90FF");     // Dodger Blue
-    private static readonly string AngryColor = Colors.RgbToAnsi("#FF4500");   // Orange Red
-    private static readonly string TiredColor = Colors.RgbToAnsi("#9370DB");   // Purple
-    private static readonly string SickColor = Colors.RgbToAnsi("#32CD32");    // Toxic Green
-
-    public static void ShowWelcome()
+    public static class GameMessages
     {
-        Console.Clear();
-        Console.WriteLine($"{TitleColor}");
-        Console.WriteLine(" ╔════════════════════════════════════════════╗ ");
-        Console.WriteLine(" ║                                            ║ ");
-        Console.WriteLine($" ║   {Styles.FromCodePoint(0x2728)}  WELCOME TO THE XBOCHI PET SYSTEM {Styles.FromCodePoint(0x2728)}    ║ ");
-        Console.WriteLine(" ║                                            ║ ");
-        Console.WriteLine(" ╚════════════════════════════════════════════╝ ");
-        Console.WriteLine($"{Colors.Reset}");
-    }
+        private static readonly string BoxColor = Colors.RgbToAnsi("#00FFFF");      // Cyan
+        private static readonly string TitleColor = Colors.RgbToAnsi("#FF69B4");    // Hot Pink
+        private static readonly string MenuOptionColor = Colors.RgbToAnsi("#FFFFFF"); // White
+        private static readonly string MenuNumberColor = Colors.RgbToAnsi("#FFD700"); // Gold
 
-    public static void ShowEmotionStatus(Pet pet)
-    {
-        string name = pet.GetName();
-        Emotions emotion = pet.GetEmotion();
+        private static readonly string HappyColor = Colors.RgbToAnsi("#FFD700");    // Gold
+        private static readonly string SadColor = Colors.RgbToAnsi("#1E90FF");      // Dodger Blue
+        private static readonly string AngryColor = Colors.RgbToAnsi("#FF4500");    // Orange Red
+        private static readonly string TiredColor = Colors.RgbToAnsi("#9370DB");    // Purple
+        private static readonly string SickColor = Colors.RgbToAnsi("#32CD32");     // Toxic Green
 
-        switch (emotion)
+        private static readonly string HungerColor = Colors.RgbToAnsi("#FF00FF");   // Magenta
+        private static readonly string EnergyColor = Colors.RgbToAnsi("#FFFF00");   // Yellow
+        private static readonly string HealthColor = Colors.RgbToAnsi("#00FF00");   // Green
+
+        private static readonly string SuccessColor = Colors.RgbToAnsi("#00FF00");  // Lime Green
+        private static readonly string ErrorColor = Colors.RgbToAnsi("#FF0000");    // Red
+        
+        public static void DrawMainScreen(Pet pet)
         {
-            case Emotions.Happy:
-                Console.WriteLine($"{HappyColor}(^_^) YAY! {name} is feeling Happy and energetic!{Colors.Reset}");
-                break;
-            case Emotions.Sad:
-                Console.WriteLine($"{SadColor}(T_T) Oh no... {name} looks away sadly.{Colors.Reset}");
-                break;
-            case Emotions.Angry:
-                Console.WriteLine($"{AngryColor}(>_<) Grrr! {name} is very Angry! Watch out!{Colors.Reset}");
-                break;
-            case Emotions.Tired:
-                Console.WriteLine($"{TiredColor}(-_- ) Zzz... {name} is too Tired and needs a nap.{Colors.Reset}");
-                break;
-            case Emotions.Sick:
-                Console.WriteLine($"{SickColor}(@_@) {name} is feeling Sick! Please give them some medicine!{Colors.Reset}");
-                break;
-            default:
-                Console.WriteLine($"{name} is just staring at you. {Styles.FromCodePoint(0x1f636)}");
-                break;
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            Console.Clear();
+
+            DrawHeader(pet);
+
+            DrawPetArt(pet.GetEmotion());
+
+            DrawPetInfo(pet);
+
+            DrawStats(pet);
+
+            DrawMenu();
         }
-    }
-    
-    public static void ShowSuccess(string message)
-    {
-        Console.WriteLine($"{SuccessColor}✓ {message}{Colors.Reset}");
-    }
-    
-    public static void ShowError(string message)
-    {
-        Console.WriteLine($"{ErrorColor}✗ {message}{Colors.Reset}");
+
+        private static void DrawHeader(Pet pet)
+        {
+            string typeName = pet.GetType().Name;
+
+            Console.WriteLine($"{BoxColor}╔════════════════════════════════════════════╗{Colors.Reset}");
+            Console.WriteLine($"{BoxColor}║{TitleColor}                 XBOCHI                     {BoxColor}║{Colors.Reset}");
+            Console.WriteLine($"{BoxColor}║{Colors.Reset}                                {BoxColor}║{Colors.Reset}");
+            Console.WriteLine($"{BoxColor}║{Colors.Reset}\t   Type: {typeName,-22}{BoxColor}║{Colors.Reset}");
+            Console.WriteLine($"{BoxColor}╚════════════════════════════════════════════╝{Colors.Reset}");
+        }
+
+        private static void DrawPetInfo(Pet pet)
+        {
+            string emotionEmoji = GetEmotionEmoji(pet.GetEmotion());
+            string emotionColor = GetEmotionColor(pet.GetEmotion());
+
+            Console.WriteLine($"Name: {pet.GetName()}");
+            Console.WriteLine($"Emotional State: {emotionColor}{pet.GetEmotion()} {emotionEmoji}{Colors.Reset} \n");
+        }
+
+        private static void DrawStats(Pet pet)
+        {
+            
+            /* TODO: REPLACE WITH ACTUAL PET STATS ONCE IMPLEMENTED
+             * For now, we will use hardcoded values to demonstrate the UI.
+             * In a real implementation, these would come from the pet's properties.
+             */
+            int currentHunger = 20;
+            int currentEnergy = 80;
+            int currentHealth = 60;
+
+            Console.WriteLine($"{HungerColor}Hunger:{DrawBar(currentHunger)}{Colors.Reset}");
+            Console.WriteLine($"{EnergyColor}Energy:{DrawBar(currentEnergy)}{Colors.Reset}");
+            Console.WriteLine($"{HealthColor}Health:{DrawBar(currentHealth)}{Colors.Reset}");
+        }
+
+        private static void DrawMenu()
+        {
+            Console.WriteLine("\n---------------------------------");
+            Console.WriteLine($"{MenuNumberColor}1{Colors.Reset} - {MenuOptionColor}Eat{Colors.Reset}");
+            Console.WriteLine($"{MenuNumberColor}2{Colors.Reset} - {MenuOptionColor}Sleep{Colors.Reset}");
+            Console.WriteLine($"{MenuNumberColor}3{Colors.Reset} - {MenuOptionColor}Play{Colors.Reset}");
+            Console.WriteLine($"{MenuNumberColor}4{Colors.Reset} - {MenuOptionColor}Inventory{Colors.Reset}");
+            Console.WriteLine($"{MenuNumberColor}0{Colors.Reset} - {MenuOptionColor}Exit{Colors.Reset}");
+        }
+
+        private static string DrawBar(int value)
+        {
+            int totalBlocks = 20;
+            value = Math.Max(0, Math.Min(100, value));
+            int filledBlocks = value * totalBlocks / 100;
+
+            return "[" +
+                   new string('#', filledBlocks) +
+                   new string('-', totalBlocks - filledBlocks) +
+                   $"] {value}%";
+        }
+
+        public static void DrawPetArt(Emotions state)
+        {
+            string color = GetEmotionColor(state);
+            string art = state switch
+            {
+                Emotions.Happy => @"
+      /\_/\      
+     ( ^‿^ )     
+     /       \    
+    |         |   
+     \__/\___/    
+",
+                Emotions.Sad => @"
+      /\_/\      
+     ( ╥﹏╥ )     
+     /       \    
+    |         |   
+     \__/\___/    
+",
+                Emotions.Angry => @"
+      /\_/\      
+     ( ಠ_ಠ )     
+     /       \    
+    |         |   
+     \__/\___/    
+",
+                Emotions.Tired => @"
+      /\_/\      
+     ( -_- ) zZ  
+     /       \    
+    |         |   
+     \__/\___/    
+",
+                Emotions.Sick => @"
+      /\_/\      
+     ( x_x )     
+     /       \    
+    |   +--+   |   
+     \__/\___/    
+",
+                _ => ""
+            };
+
+            Console.WriteLine($"{color}{art}{Colors.Reset}");
+        }
+
+        private static string GetEmotionColor(Emotions state)
+        {
+            return state switch
+            {
+                Emotions.Happy => HappyColor,
+                Emotions.Sad => SadColor,
+                Emotions.Angry => AngryColor,
+                Emotions.Tired => TiredColor,
+                Emotions.Sick => SickColor,
+                _ => Colors.Reset
+            };
+        }
+
+        private static string GetEmotionEmoji(Emotions state)
+        {
+             return state switch
+            {
+                Emotions.Happy => Styles.FromCodePoint(0x1f603), 
+                Emotions.Sad => Styles.FromCodePoint(0x1f641),
+                Emotions.Angry => Styles.FromCodePoint(0x1f620),
+                Emotions.Tired => Styles.FromCodePoint(0x1f634),
+                Emotions.Sick => Styles.FromCodePoint(0x1f927),
+                _ => ""
+            };
+        }
+
+        public static void ShowSuccess(string message)
+        {
+            Console.WriteLine($"\n{SuccessColor}✔ {message}{Colors.Reset}");
+        }
+
+        public static void ShowError(string message)
+        {
+            Console.WriteLine($"\n{ErrorColor}✖ {message}{Colors.Reset}");
+        }
     }
 }
